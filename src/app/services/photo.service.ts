@@ -19,7 +19,9 @@ export class PhotoService {
   public async loadSaved() {
     // Retrieve cached photo array data
     const photoList = await Preferences.get({ key: this.PHOTO_STORAGE });
-    this.photos = JSON.parse(photoList.value) || [];
+
+    // Verificar si photoList.value no es null antes de intentar parsearlo
+    this.photos = photoList.value ? JSON.parse(photoList.value) : [];
 
     // If running on the web...
     if (!this.platform.is('hybrid')) {
@@ -36,6 +38,7 @@ export class PhotoService {
       }
     }
   }
+
 
   public async addNewToGallery(): Promise<UserPhoto> {
     // Take a photo
@@ -91,24 +94,30 @@ export class PhotoService {
 }
 
 
-
   // Read camera photo into base64 format based on the platform the app is running on
-  private async readAsBase64(photo: Photo): Promise<string> {
-    if (this.platform.is('hybrid')) {
-        // Leer el archivo en formato base64
-        const file = await Filesystem.readFile({
-            path: photo.path,
-        });
+private async readAsBase64(photo: Photo): Promise<string> {
+  if (this.platform.is('hybrid')) {
+      // Leer el archivo en formato base64 en una plataforma híbrida
+      const file = await Filesystem.readFile({
+          path: photo.path!,
+      });
 
-        return file.data;
-    } else {
-        // Recuperar la foto, leer como un blob, luego convertir a formato base64
-        const response = await fetch(photo.webPath!);
-        const blob = await response.blob();
+      // Asegurarse de que el valor sea siempre un string
+      if (typeof file.data === 'string') {
+          return file.data;  // Retornar directamente si es un string
+      } else {
+          throw new Error('El archivo no es un string');  // Lanza un error si no es un string
+      }
+  } else {
+      // Recuperar la foto, leer como un blob, luego convertir a formato base64 en la web
+      const response = await fetch(photo.webPath!);
+      const blob = await response.blob();
 
-        return (await this.convertBlobToBase64(blob)) as string;
-    }
+      // Convertir el blob a base64 y devolverlo como string
+      return (await this.convertBlobToBase64(blob)) as string;
+  }
 }
+
 
 
 

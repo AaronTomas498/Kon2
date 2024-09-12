@@ -65,10 +65,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   async sendMessage(photo?: UserPhoto): Promise<void> {
     const messageText = this.messageForm.get('messageInput')?.value || '';
-  
+
     if (messageText.trim() || photo) {
-      let location = null;
-  
+      let location: { latitude: number; longitude: number; } | undefined = undefined;
+
       try {
         const position = await Geolocation.getCurrentPosition();
         location = {
@@ -79,22 +79,23 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         console.error('Error obteniendo la ubicación:', error);
         // Puedes manejar el error de la forma que prefieras, por ejemplo, enviando el mensaje sin ubicación.
       }
-  
+
       const newMessage: Message = {
         id: this.senderId!,
         text: messageText,
         sender: this.sender,
         timestamp: Date.now(),
-        photo: photo ? photo.webviewPath : null,
-        location, // Añadimos la ubicación al mensaje
+        photo: photo ? photo.webviewPath : undefined,
+        location, // Ahora es undefined en lugar de null si no se obtiene la ubicación
       };
-  
+
       this.messageService.addMessage(newMessage);
       this.messageForm.reset();
       this.shouldScroll = true;
     }
   }
-  
+
+
 
   private scrollToBottom(): void {
     try {
