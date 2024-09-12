@@ -1,0 +1,26 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  flex-wrap: nowrap; /* Asegura que todos los elementos estén en una sola línea */
+  height: 50px;
+}
+
+.title {
+  flex-shrink: 0; /* Evita que se reduzca más allá de su contenido */
+  text-align: left;
+  font-size: 30px;
+}
+
+.user-info {
+  flex-grow: 1; /* Permite que ocupe el espacio disponible entre el título y el botón */
+  text-align: center;
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  font-size: 20px;
+}
+
+.logout-button {
+  flex-shrink: 0; /* Evita que se reduzca más allá de su contenido */
+  margin-left: auto; /* Empuja el botón hacia la derecha */
+}

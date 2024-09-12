@@ -1,0 +1,82 @@
+/* Contenedor de mensajes */
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: calc(100vh - 60px - 45px); /* Resta la altura del ion-footer */
+  padding: 16px;
+  overflow-y: auto; /* Habilita el scroll vertical */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+}
+
+/* Estilos para mensajes enviados por el usuario */
+.message.sent {
+  align-self: flex-end;
+  text-align: right;
+}
+
+/* Estilos para mensajes recibidos */
+.message.received {
+  align-self: flex-start;
+  text-align: left;
+}
+
+/* Estilos para cada mensaje */
+.message {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+  background-color: #f1f1f1;
+  max-width: 100%; /* Ajuste del ancho máximo al 100% */
+  width: fit-content; /* Ajuste dinámico del ancho según el contenido */
+  display: inline-block; /* Asegura que el contenedor del mensaje se ajuste al contenido */
+  word-wrap: break-word; /* Permite que las palabras largas se rompan y se ajusten al contenedor */
+}
+
+/* Contenedor del input y el botón */
+.input-container {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* Ajuste del input para ocupar más espacio */
+ion-input {
+  flex: 1;
+  margin-right: 10px; /* Espacio entre el input y el botón */
+}
+
+/* Formulario fijo en la parte inferior */
+ion-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Ajuste para el botón de enviar */
+ion-button {
+  height: 100%;
+}
+
+/* Estilos específicos para ion-img en mensajes */
+/* .message ion-img {
+  width: auto;
+  height: auto;
+  max-width: 50%;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.message img, .message ion-img {
+  max-width: 50%;
+  height: auto;
+  display: inline-block;
+  margin: 0;
+  border-radius: 10px;
+  width: auto;
+  padding: 0;
+} */

@@ -1,0 +1,37 @@
+<ion-content>
+  <div #messagesContainer id="messagesContainer" class="messages-container">
+    <div
+      *ngFor="let message of messages$ | async"
+      class="message"
+      [ngClass]="{ 'sent': message.id === senderId, 'received': message.id !== senderId }"
+    >
+      <ng-container *ngIf="message.id !== senderId">
+        <b>{{ message.sender }}:</b>
+      </ng-container>
+      <div>{{ message.text }}</div>
+      <ion-img *ngIf="message.photo" [src]="message.photo"></ion-img>
+    </div>
+  </div>
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="message-form">
+      <ion-item lines="none" class="input-container">
+        <ion-input
+          id="messageInput"
+          type="text"
+          formControlName="messageInput"
+          placeholder="Escribe un mensaje"
+        ></ion-input>
+        <ion-button expand="block" type="submit" [disabled]="!messageForm.valid">
+          Enviar
+        </ion-button>
+        <ion-button (click)="openCameraComponent()" type="button">
+          <ion-icon name="camera"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </form>
+  </ion-toolbar>
+</ion-footer>
