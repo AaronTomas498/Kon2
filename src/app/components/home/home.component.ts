@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoginComponent } from '../login/login.component';
 import { ChatComponent } from '../chat/chat.component';
+import { User } from '@firebase/auth-types';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,9 @@ import { ChatComponent } from '../chat/chat.component';
 export class HomeComponent implements OnInit {
   user: any;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  private authService = inject(AuthService);
+  private router= inject(Router);
+  private ngZine = inject(NgZone);
 
   async logout() {
     try {
