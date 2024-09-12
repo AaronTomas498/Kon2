@@ -1,23 +1,21 @@
 <ion-header>
   <div class="toolbar">
-    <div class="title">Kon</div> 
-    <div *ngIf="user" class="user-info">
-      <p>{{ user.displayName }}</p>
-    </div>
-    <ion-button *ngIf="user" (click)="logout()" class="logout-button">
-      <ion-icon name="log-out-outline"></ion-icon>
-    </ion-button>
+    <div class="title">Kon</div>
+    @if (user) {
+      <div class="user-info">
+        <p>{{ user.displayName }}</p>
+      </div>
+      <ion-button (click)="logout()" class="logout-button">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    }
   </div>
 </ion-header>
 
 <ion-content>
-  <!-- Mostrar el componente de login si no hay usuario -->
-  <ng-container *ngIf="!user">
-    <app-login></app-login> <!-- Componente de login -->
-  </ng-container>
-
-  <!-- Mostrar el componente de chat si hay usuario -->
-  <ng-container *ngIf="user">
-    <app-chat></app-chat> <!-- Componente de chat -->
-  </ng-container>
+  @if (!user) {
+    <app-login></app-login>
+  } @else {
+    <app-chat></app-chat>
+  }
 </ion-content>
