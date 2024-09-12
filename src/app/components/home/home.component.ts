@@ -9,19 +9,17 @@ import { ChatComponent } from '../chat/chat.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    LoginComponent,
-    ChatComponent,
-  ],
+  imports: [IonicModule, CommonModule, LoginComponent, ChatComponent],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   user: any;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   async logout() {
     try {
@@ -36,7 +34,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     // Escuchar el estado de autenticación y actualizar `user`
-    this.authService.getCurrentUser().subscribe(user => {
+    this.authService.getCurrentUser().subscribe((user) => {
       this.user = user;
       if (!user) {
         this.router.navigate(['/home']); // Redirige si no hay usuario autenticado

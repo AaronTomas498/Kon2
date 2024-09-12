@@ -1,37 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule 
-  ],
+  imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  user: any;
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private ngZone = inject(NgZone);
 
-  constructor(
-    private authService: AuthService, 
-    private router: Router, 
-    private ngZone: NgZone 
-  ) {}
+  // Tipalo si puedes.
+  user: any;
 
   async login() {
     try {
       const result = await this.authService.loginWithGoogle();
       if (result) {
         this.ngZone.run(() => {
-          this.router.navigate(['/home']); // Redirige a 'home' para cargar el chat
+          this.router.navigate(['/home']);
         });
       }
     } catch (error) {
@@ -40,11 +37,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe(user => {
-      this.user = user;
-      if (user) {
-        this.router.navigate(['/home']); // Redirige si ya está autenticado
-      }
-    });
+    // se puede tipar el user dentro de la suscripcion?
+    this.authService
+      .getCurrentUser()
+      .pipe(untilDestroyed(this))
+      .subscribe((user) => {
+        this.user = user;
+        if (user) {
+          this.router.navigate(['/home']);
+        }
+      });
   }
 }

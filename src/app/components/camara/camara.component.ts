@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { ActionSheetController, IonicModule, ModalController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  IonicModule,
+  ModalController,
+} from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { PhotoService, UserPhoto } from '../../services/photo.service';
 
@@ -14,7 +18,7 @@ export class CamaraComponent {
   constructor(
     public photoService: PhotoService,
     public actionSheetController: ActionSheetController,
-    private modalController: ModalController
+    private modalController: ModalController,
   ) {}
 
   async ngOnInit() {
@@ -29,7 +33,7 @@ export class CamaraComponent {
           icon: 'send',
           handler: () => {
             this.modalController.dismiss(photo);
-          }
+          },
         },
         {
           text: 'Borrar',
@@ -37,14 +41,14 @@ export class CamaraComponent {
           icon: 'trash',
           handler: () => {
             this.photoService.deletePicture(photo, position);
-          }
+          },
         },
         {
           text: 'Cancelar',
           icon: 'close',
-          role: 'cancel'
-        }
-      ]
+          role: 'cancel',
+        },
+      ],
     });
     await actionSheet.present();
   }
@@ -52,10 +56,9 @@ export class CamaraComponent {
   async addPhotoAndSend() {
     const capturedPhoto = await this.photoService.addNewToGallery();
     if (capturedPhoto) {
-        this.modalController.dismiss(capturedPhoto);
+      this.modalController.dismiss(capturedPhoto);
     }
-}
-
+  }
 
   closeModal() {
     this.modalController.dismiss();
